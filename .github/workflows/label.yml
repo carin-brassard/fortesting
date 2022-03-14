@@ -1,0 +1,52 @@
+name: Quarterly AR - Testing Labels
+on:  workflow_dispatch
+jobs:
+  create_issue:
+    name: Create issue
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+        
+# Define dates
+      - name: Month
+        run: echo "MONTH=$(date '+%m')" >> $GITHUB_ENV
+      - name: Year
+        run: echo "YEAR=$(date '+%Y')" >> $GITHUB_ENV
+      - name: March
+        if: env.MONTH == 3
+        run: echo "QUARTER_NAME= Q1" >> $GITHUB_ENV
+        labels: "Q1-test"
+      - name: June
+        if: env.MONTH == 6
+        run: echo "QUARTER_NAME= Q2" >> $GITHUB_ENV
+        labels: "Q2-test"
+      - name: September
+        if: env.MONTH == 9
+        run: echo "QUARTER_NAME= Q3" >> $GITHUB_ENV
+        labels: "Q3-test"
+      - name: December
+        if: env.MONTH == 12
+        run: echo "QUARTER_NAME= Q4" >> $GITHUB_ENV
+        labels: "Q4-test"
+
+      - name: AR - Testing Labels
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "Quarterly Jobs"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR [Confirm GCP projects that are in scope]
+          body: |
+              ## What is this issue about?
+              Test
+
+              ## What needs to be done?
+              GTest
+
+              ## What does success look like?
+              Test
+                          
+          pinned: false
+          close-previous: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
