@@ -16,19 +16,20 @@ jobs:
       - name: March
         if: env.MONTH == 3
         run: echo "QUARTER_NAME= Q1" >> $GITHUB_ENV
-        labels: "Q1-test"
+        label: "test label"
+    
       - name: June
         if: env.MONTH == 6
         run: echo "QUARTER_NAME= Q2" >> $GITHUB_ENV
-        labels: "Q2-test"
-      - name: September
+        
+        - name: September
         if: env.MONTH == 9
         run: echo "QUARTER_NAME= Q3" >> $GITHUB_ENV
-        labels: "Q3-test"
+        
       - name: December
         if: env.MONTH == 12
         run: echo "QUARTER_NAME= Q4" >> $GITHUB_ENV
-        labels: "Q4-test"
+        
 
       - name: AR - Testing Labels
         uses: imjohnbo/issue-bot@v3
