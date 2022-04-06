@@ -1,0 +1,14 @@
+name: "Project Labeler"
+on:
+  issues:
+    label: "2022 Q3-C1 Cycle Goal,2022 Q3-C2 Cycle Goal"
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add project by label
+        project: Test
+        uses: d-i-bondarenko/project-labeler@v0.2.0
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
