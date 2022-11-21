@@ -428,7 +428,7 @@ jobs:
         with:
           assignees: "diacant"
           labels: "cyclical-control, Access Review 2022"
-          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR15 [Review KateSQL Admins]
+          title: ${{ env.QUARTER_NAME }} ${{ env.YEAR }} AR15 [Review KateSQL Admins]
           body: |
               ### What is this issue about?
               As part of our semi-annual access review we review users who have access to the Shopify databases. 
@@ -454,7 +454,7 @@ jobs:
         with:
           assignees: "diacant"
           labels: "cyclical-control"
-          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} Quarterly Access Review
+          title:  ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} Quarterly Access Review
           project: "SOC 2 Operational Work"
           body: |
                   ## What is this issue about?
