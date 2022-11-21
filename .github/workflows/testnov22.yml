@@ -42,7 +42,7 @@ jobs:
         with:
           assignees: "diacant"
           labels: "Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}, cyclical-control"
-          title: AR1 [Confirm GCP projects that are in scope] ${{ env.QUARTER_NAME }} - ${{ env.YEAR }}
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR1 [Confirm GCP projects that are in scope]
           body: |
               ## What is this issue about?
               Verify the GCP projects that are in scope for SOC2 access review.
@@ -65,7 +65,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR2 [Review GCP Role Bindings]
           body: |
               ### What is this issue about?
@@ -93,7 +93,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR3 [Prod Access Review | Review Clouddo Configuration]
           body: |
               ### What is this issue about?
@@ -116,7 +116,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR4 [Prod Access Review | Record GCP Hierarchy]
           body: |
               ### What is this issue about?
@@ -140,11 +140,12 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR5 [Review Google Group Configuration]
           body: |
               ### What is this issue about?
               Confirm that all in scope google groups are configured so that only Group Owners and Managers can add new users.
+              
               ### What needs to be done?
               Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-google-group-configuration
               
@@ -154,6 +155,7 @@ jobs:
                - [ ] Approved list
                - [ ] Backup evidence to Google Drive
                - [ ] Close issue
+               
               ### What does success look like?
               A screenshot for each in-scope Google Group showing only that only Owners or Managers can add members to group.
                           
@@ -164,7 +166,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR6 [Review Google Group Membership]
           body: |
             ### What is this issue about?
@@ -173,6 +175,7 @@ jobs:
             Being a member of a google group gives the user the privileges that are associated with the group. 
             Reviewing the groups twice a year allows a senior resource to approve or adjust the membership of the group as needed. 
             Google groups are used by clouddo to assign elevated privileges for administration type activities.
+            
             ### What needs to be done?
             Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-google-groups-membership
             - [ ] Identify Google Groups in scope from AR3
@@ -182,20 +185,23 @@ jobs:
             - [ ] Approved list
             - [ ] Backup evidence to Google Drive
             - [ ] Close issue
+            
             ### What does success look like?
             All users in the in-scope google groups will have been reviewed by someone who is responsible for the group.
                           
           pinned: false
           close-previous: false
+      
       - name: AR7 - Review Okta Group Memberships
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR7 [Review Okta Group Memberships]
           body: |
               ### What is this issue about?
               Review membership in the Okta groups that are associated with the in-scope Clouddo accounts.
+              
               ### What needs to be done?
               Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-okta-groups
               
@@ -203,6 +209,7 @@ jobs:
                - [ ] Link AR6 to issue as Okta-group is covered in the same review. 
                - [ ] Backup evidence to Google Drive
                - [ ] Close issue
+              
               ### What does success look like?
               All users in the in-scope Okta group(s) will have been reviewed by someone who is responsible for the group.
                           
@@ -213,7 +220,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR8 [Review Chef SA Users]
           body: |
             ### What is this issue about?
@@ -238,7 +245,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR9 [Review Chef DB Users]
           body: |
             ### What is this issue about?
@@ -253,6 +260,7 @@ jobs:
              - [ ] Approved list
              - [ ] Backup evidence to Google Drive (Spreadsheet/Mode Report/PDF)
              - [ ] Close issue
+            
             ### What does success look like?
             All Chef DB access has been approved by someone who is responsible for the users.
                           
@@ -264,11 +272,12 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR10 [Review Cloudflare Admin Users]
           body: |
             ### What is this issue about?
             Identify and approve all users that have admin level access to cloudflare.
+            
             ### What needs to be done?
             Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-cloudflare
             
@@ -283,6 +292,7 @@ jobs:
              - [ ] Approved list
              - [ ] Backup evidence to Google Drive
              - [ ] Close issue
+            
             ### What does success look like?
             Admin users via Clouddo have been approved
             Membership in team-traffic 1password group has been approved
@@ -294,7 +304,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR11 [Review G-Suite Admin Roles]
           body: |
             ### What is this issue about?
@@ -303,6 +313,7 @@ jobs:
             Add users to groups
             Membership in the group is reviewed and approved by senior management.
             Please note that 'Groups_Retrieve' is not in scope. 
+            
             ### What needs to be done?
             Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-gsuite-admin-roles
             
@@ -313,6 +324,7 @@ jobs:
              - [ ] Approved list
              - [ ] Backup evidence to Google Drive
              - [ ] Close issue
+            
             ### What does success look like?
             We have approved all admin access to G-Suite.
             
@@ -323,16 +335,17 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR12 [Review Okta Admins]
           body: |
             ### What is this issue about?
             Confirm whether access and role (ability to invite other users to the group) is appropriate for Okta admin users.
             
             Type of Accounts to be reviewed:
-            Cloud Org Admin
-            Super Admin
-            App Admin
+            - [ ] Cloud Org Admin
+            - [ ] Super Admin
+            - [ ] App Admin
+            
             ### What needs to be done?
             Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-okta-admins
              - [ ] Request Okta Org Admin to provide administrator report 
@@ -345,6 +358,7 @@ jobs:
              - [ ] Approved list
              - [ ] Backup evidence to Google Drive
              - [ ] Close issue
+            
             ### What does success look like?
             An approved list of Okta administrators.
             
@@ -355,7 +369,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR13 [Review of Splunk Admins]
           body: |
            ## What is this issue about?
@@ -370,7 +384,7 @@ jobs:
             - [ ] Backup evidence to Google Drive 
             - [ ] Close issue
            ## What does success look like?
-            Will have a list of valid Splunk admin users.
+           Will have a list of valid Splunk admin users.
           pinned: false
           close-previous: false
 
@@ -378,7 +392,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR14 [Review of Github Admins and Enterprise Owners]
           body: |
            ## What is this issue about?
@@ -431,13 +445,14 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control, Access Review 2022"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title: ${{ env.QUARTER_NAME }} ${{ env.YEAR }} AR15 [Review KateSQL Admins]
           body: |
               ### What is this issue about?
               As part of our semi-annual access review we review users who have access to the Shopify databases. 
               This access can occur either through the server directly (i.e. sysadmins) or through database itself (the DBA users). 
               This issue will focus on the KateSQL Admin's only. Access lists should be approved by someone who is responsible for the users who have access.
+              
               ### What needs to be done?
               Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-katesql-admins
                 - [ ] Capture .PDF of katesql-manager/db/data/user_permissions.yml
@@ -447,6 +462,7 @@ jobs:
                 - [ ] Remove users as required based off review 
                 - [ ] Backup evidence to Google Drive 
                 - [ ] Close issue
+              
               ### What does success look like?
               All KateSQL admin access has been approved by someone who is responsible for the users.
                           
@@ -457,7 +473,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
-          labels: "cyclical-control"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
           title:  ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} Quarterly Access Review
           project: "SOC 2 Operational Work"
           body: |
