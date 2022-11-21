@@ -1,12 +1,11 @@
-name: Daily Task List
+name: Test AR
 on: 
   workflow_dispatch:
-
   #schedule:
   #  - cron: 0 7 * * *
 
-<carin has code here to create the project>
-<carin has also code to create the project board>
+  #<carin has code here to create the project>
+  #<carin has also code to create the project board>
 
 jobs:
   create_issue:
