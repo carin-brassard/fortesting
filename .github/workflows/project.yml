@@ -14,7 +14,7 @@ on:
           
 jobs:              
   create-project:
-    runs-on: shopify-ubuntu-latest
+    runs-on: ubuntu-latest
     outputs:
       project-number: ${{ steps.output-number.outputs.project-number }}
       project-id: ${{ steps.output-id.outputs.project-id }}
