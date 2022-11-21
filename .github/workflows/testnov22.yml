@@ -63,7 +63,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          assignees: "diacantvid"
+          assignees: "diacant"
           labels: "cyclical-control, Access Review 2022"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR10 [Review Cloudflare Admin Users]
           body: |
