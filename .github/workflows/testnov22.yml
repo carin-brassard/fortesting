@@ -33,7 +33,7 @@ jobs:
         #run: echo "{QUARTER_NAME}={O4}" >> $GITHUB_ENV
         run: echo "QUARTER_NAME=Q4" >> $GITHUB_ENV
    
-        - name: AR1 - Confirm GCP projects that are in scope
+      - name: AR1 - Confirm GCP projects that are in scope
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
