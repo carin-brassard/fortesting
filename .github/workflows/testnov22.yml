@@ -1,4 +1,4 @@
-name: Daily Task List
+name: Access Reviews Workflow
 on: 
   workflow_dispatch:
 
