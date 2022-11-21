@@ -38,7 +38,7 @@ jobs:
         with:
           assignees: "diacant"
           labels: "Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}, cyclical-control"
-          title: AR1 [Confirm GCP projects that are in scope] ${{ env.YEAR }} | ${{ env.QUARTER_NAME }}
+          title: AR1 [Confirm GCP projects that are in scope] ${{ env.YEAR }}-${{ env.QUARTER_NAME }}
           body: |
               ## What is this issue about?
               Verify the GCP projects that are in scope for SOC2 access review.
