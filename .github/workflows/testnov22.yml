@@ -39,7 +39,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          assignees: "davidnewman-shopify"
+          assignees: "diacant"
           labels: "Access Review 2022, cyclical-control"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR1 [Confirm GCP projects that are in scope]
           body: |
@@ -63,7 +63,7 @@ jobs:
         uses: imjohnbo/issue-bot@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          assignees: "davidnewman-shopify"
+          assignees: "diacantvid"
           labels: "cyclical-control, Access Review 2022"
           title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR10 [Review Cloudflare Admin Users]
           body: |
