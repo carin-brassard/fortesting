@@ -57,7 +57,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR2 - Review GCP Role Bindings
+      - name: AR2 - Review GCP Role Bindings
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -85,7 +85,7 @@ jobs:
           pinned: false
           close-previous: false
 
- - name: AR3 - Prod Access Review | Review Clouddo Configuration
+      - name: AR3 - Prod Access Review | Review Clouddo Configuration
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -108,7 +108,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR4 - Prod Access Review | Record GCP Hierarchy
+      - name: AR4 - Prod Access Review | Record GCP Hierarchy
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -132,7 +132,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR5 - Review Google Group Configuration
+      - name: AR5 - Review Google Group Configuration
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -156,7 +156,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR6 - Prod Access Review | Review Google Group Membership
+      - name: AR6 - Prod Access Review | Review Google Group Membership
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -183,7 +183,7 @@ jobs:
                           
           pinned: false
           close-previous: false
-- name: AR7 - Review Okta Group Memberships
+      - name: AR7 - Review Okta Group Memberships
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -205,7 +205,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR8 - Review Chef SA Users
+      - name: AR8 - Review Chef SA Users
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -230,7 +230,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR9 - Review Chef DB Users
+      - name: AR9 - Review Chef DB Users
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -256,7 +256,7 @@ jobs:
           close-previous: false
 
 
-- name: AR10 - Review Cloudflare Admin users
+      - name: AR10 - Review Cloudflare Admin users
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -286,7 +286,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR11 - Review G-Suite Admin Roles
+      - name: AR11 - Review G-Suite Admin Roles
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -315,7 +315,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR12 - Review Okta Admins
+      - name: AR12 - Review Okta Admins
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -347,7 +347,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR13 - Review of Splunk Admins
+      - name: AR13 - Review of Splunk Admins
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -370,7 +370,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR14 - Review of Github Org and Enterprise Owners
+      - name: AR14 - Review of Github Org and Enterprise Owners
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -423,7 +423,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: AR15 - Review KateSQL Admins
+      - name: AR15 - Review KateSQL Admins
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
@@ -449,7 +449,7 @@ jobs:
           pinned: false
           close-previous: false
 
-- name: Quarterly Access Review Tracker
+      - name: Quarterly Access Review Tracker
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
