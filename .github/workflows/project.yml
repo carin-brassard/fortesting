@@ -1,0 +1,92 @@
+on:
+  workflow_dispatch:
+
+    inputs:
+      project-name: 
+        description: 'Project name'
+        required: true
+      description: 
+          description: 'Project description'
+          required: true
+      project-label: 
+          description: 'Project label'
+          required: true
+          
+jobs:              
+  create-project:
+    runs-on: shopify-ubuntu-latest
+    outputs:
+      project-number: ${{ steps.output-number.outputs.project-number }}
+      project-id: ${{ steps.output-id.outputs.project-id }}
+    permissions:
+      issues: write
+      repository-projects: write
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: create-new-project
+        with:
+          route: POST /repos/{owner}/{repo}/projects
+          owner: Diacant
+          repo: fortesting
+          name: ${{ github.event.inputs.project-name }}
+          body: ${{ github.event.inputs.description }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.SOC_GITHUB_ACTIONS_TOKEN }}
+      - id: output-number
+        run: echo "::set-output name=project-number::${{ fromJson(steps.create-new-project.outputs.data).number }}"
+      - id: output-id
+        run: echo "::set-output name=project-id::${{ fromJson(steps.create-new-project.outputs.data).id }}" 
+  
+  create-board:
+    runs-on: shopify-ubuntu-latest
+    needs: create-project
+    permissions:
+      issues: write
+      repository-projects: write
+    steps:    
+      - uses: octokit/request-action@v2.x
+        id: create-todo-col
+        with:
+          route: POST /projects/{project_id}/columns
+          project_id: ${{ needs.create-project.outputs.project-id }}
+          name: "To do"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
+      - uses: octokit/request-action@v2.x
+        id: create-inprog-col
+        with:
+          route: POST /projects/{project_id}/columns
+          project_id: ${{ needs.create-project.outputs.project-id }}
+          name: "In Progress"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
+      - uses: octokit/request-action@v2.x
+        id: create-onhold-col
+        with:
+          route: POST /projects/{project_id}/columns
+          project_id: ${{ needs.create-project.outputs.project-id }}
+          name: "On Hold"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
+      - uses: octokit/request-action@v2.x
+        id: create-peer-review-col
+        with:
+          route: POST /projects/{project_id}/columns
+          project_id: ${{ needs.create-project.outputs.project-id }}
+          name: "Peer Review"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
+      - uses: octokit/request-action@v2.x
+        id: create-approval-col
+        with:
+          route: POST /projects/{project_id}/columns
+          project_id: ${{ needs.create-project.outputs.project-id }}
+          name: "Ready for Approval"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
+      - uses: octokit/request-action@v2.x
+        id: create_done_col
+        with:
+          route: POST /projects/{project_id}/columns
+          project_id: ${{ needs.create-project.outputs.project-id }}
+          name: "Done"
