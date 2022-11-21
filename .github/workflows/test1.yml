@@ -1,0 +1,91 @@
+name: Daily Task List
+on: 
+  workflow_dispatch:
+
+  #schedule:
+  #  - cron: 0 7 * * *
+
+<carin has code here to create the project>
+<carin has also code to create the project board>
+
+jobs:
+  create_issue:
+    name: Create issue
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Month
+        #run: echo "{MONTH}={date '+%m'}" >> $GITHUB_ENV
+        run: echo "MONTH=$(date '+%m')" >> $GITHUB_ENV
+      - name: Year
+       # run: echo "{YEAR}={date '+%Y'}" >> $GITHUB_ENV
+       # run: echo "YEAR=date '+%Y'" >> $GITHUB_ENV
+        run: echo "YEAR=$(date '+%Y')" >> $GITHUB_ENV
+      - name: April
+        if: env.MONTH == 4
+        run: echo "{QUARTER_NAME}={Q1}" >> $GITHUB_ENV
+      - name: July
+        if: env.MONTH == 7
+        run: echo "{QUARTER_NAME}={H1}" >> $GITHUB_ENV
+      - name: October
+        if: env.MONTH == 10
+        run: echo "{QUARTER_NAME}={Q3}" >> $GITHUB_ENV
+      - name: January
+        if: env.MONTH == 11
+        #run: echo "QUARTER_NAME=O4" >> $GITHUB_ENV
+        run: echo "QUARTER_NAME=Q4" >> $GITHUB_ENV
+   
+      - name: AR1 - Confirm GCP projects that are in scope
+        uses: imjohnbo/issue-bot@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          assignees: "davidnewman-shopify"
+          labels: "Access Review 2022, cyclical-control"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR1 [Confirm GCP projects that are in scope]
+          body: |
+              ## What is this issue about?
+              Verify the GCP projects that are in scope for SOC2 access review.
+              ## What needs to be done?
+              Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-confirm-scope
+               - [ ] Run script to generate list of active GCP Projects in scope (Ensure to include - au at the end of the script to exclude SOAK projects)
+               - [ ] Capture screenshot of script command line
+               - [ ] Confirm list of GCP projects that are in scope for the access review
+               - [ ] Request internal reviewer 
+               - [ ] Approved list
+               - [ ] Backup evidence to Google Drive
+               - [ ] Close Issue 
+              ## What does success look like?
+              Confirmed list of GCP projects that are in scope for the access review.
+          pinned: false
+          close-previous: false
+              
+      - name: AR10 - Review Cloudflare Admin users
+        uses: imjohnbo/issue-bot@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          assignees: "davidnewman-shopify"
+          labels: "cyclical-control, Access Review 2022"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR10 [Review Cloudflare Admin Users]
+          body: |
+            ### What is this issue about?
+            Identify and approve all users that have admin level access to cloudflare.
+            ### What needs to be done?
+            Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-cloudflare
+            
+             - [ ] Capture .PDF from Terraform repo and copy the administrators-read-only member list  ‘members.tf’ 
+             - [ ] Gather list of members from repo 
+             - [ ] Log into Okta and navigate to the Groups page and export the user list of Cloudflare access group 
+             - [ ] Log into Okta and navigate to the Groups page and export the user list for Production Access Group  
+             - [ ] Capture screenshot(s) of Production Access Okta 
+             - [ ] Generate list of users with Admin Access 
+             - [ ] Capture a screenshot of the groups that have access to the shared account via 1Password. Chris Taylor usually assists us with this task but any member of the Team Traffic team can assist. You can also reach out to IT as they own 1Password and they should be able to provide the screenshots.
+             - [ ] Capture screenshot of Google Team Traffic to identify reviewer (Owner)
+             - [ ] Approved list
+             - [ ] Backup evidence to Google Drive
+             - [ ] Close issue
+            ### What does success look like?
+            Admin users via Clouddo have been approved
+            Membership in team-traffic 1password group has been approved       
+          pinned: false
+          close-previous: false
