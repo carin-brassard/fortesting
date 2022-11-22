@@ -21,29 +21,28 @@ jobs:
         run: echo "YEAR=$(date '+%Y')" >> $GITHUB_ENV
       - name: March
         if: env.MONTH == 3
-        run: echo "{QUARTER_NAME}={Q1}" >> $GITHUB_ENV
+        run: echo "QUARTER_NAME=Q1" >> $GITHUB_ENV
       - name: June
         if: env.MONTH == 6
-        run: echo "{QUARTER_NAME}={Q2}" >> $GITHUB_ENV
+        run: echo "QUARTER_NAME=Q2" >> $GITHUB_ENV
       - name: September
         if: env.MONTH == 9
-        run: echo "{QUARTER_NAME}={Q3}" >> $GITHUB_ENV
+        run: echo "QUARTER_NAME=Q3" >> $GITHUB_ENV
       - name: December
         if: env.MONTH == 12
         #run: echo "{QUARTER_NAME}={O4}" >> $GITHUB_ENV
-        run: echo "{QUARTER_NAME}={Q4}" >> $GITHUB_ENV
+        run: echo "QUARTER_NAME=Q4" >> $GITHUB_ENV
       - name: November
         if: env.MONTH == 11
         #run: echo "{QUARTER_NAME}={O4.5}" >> $GITHUB_ENV
-        run: echo "{QUARTER_NAME}={Q4.5}" >> $GITHUB_ENV
+        run: echo "QUARTER_NAME=Q4.5" >> $GITHUB_ENV
       
       - name: AR1 - Confirm GCP projects that are in scope
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
           labels: "Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}, cyclical-control"
-          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR1 [Confirm GCP projects that are in scope]
-          
+          title: "${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR1 [Confirm GCP projects that are in scope]"          
           body: |
               ## What is this issue about?
               Verify the GCP projects that are in scope for SOC2 access review.
@@ -61,13 +60,12 @@ jobs:
                           
           pinned: false
           close-previous: false
-
       - name: AR2 - Review GCP Role Bindings
         uses: imjohnbo/issue-bot@v3
         with:
           assignees: "diacant"
           labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
-          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR2 [Review GCP Role Bindings]
+          title: "${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR2 [Review GCP Role Bindings]"
           body: |
               ### What is this issue about?
               We identify what groups have the owner and storage admin roles on each in-scope project.
@@ -89,7 +87,6 @@ jobs:
                           
           pinned: false
           close-previous: false
-
       - name: AR3 - Prod Access Review | Review Clouddo Configuration
         uses: imjohnbo/issue-bot@v3
         with:
@@ -112,7 +109,6 @@ jobs:
               Will produce a table with a list of Clouddo accounts and mappings.
           pinned: false
           close-previous: false
-
       - name: AR4 - Prod Access Review | Record GCP Hierarchy
         uses: imjohnbo/issue-bot@v3
         with:
