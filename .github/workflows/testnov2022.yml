@@ -1,0 +1,500 @@
+name: Access Reviews Workflow
+on: 
+  workflow_dispatch:
+
+  #schedule:
+  #  - cron: 0 7 * * *
+  
+jobs:
+  create_issue:
+    name: Create issue
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Month
+        #run: echo "{MONTH}={date '+%m'}" >> $GITHUB_ENV
+        run: echo "MONTH=$(date '+%m')" >> $GITHUB_ENV
+      - name: Year
+       # run: echo "{YEAR}={date '+%Y'}" >> $GITHUB_ENV
+       # run: echo "YEAR=date '+%Y'" >> $GITHUB_ENV
+        run: echo "YEAR=$(date '+%Y')" >> $GITHUB_ENV
+      - name: March
+        if: env.MONTH == 3
+        run: echo "{QUARTER_NAME}={Q1}" >> $GITHUB_ENV
+      - name: June
+        if: env.MONTH == 6
+        run: echo "{QUARTER_NAME}={Q2}" >> $GITHUB_ENV
+      - name: September
+        if: env.MONTH == 9
+        run: echo "{QUARTER_NAME}={Q3}" >> $GITHUB_ENV
+      - name: December
+        if: env.MONTH == 11
+        #run: echo "{QUARTER_NAME}={O4}" >> $GITHUB_ENV
+        run: echo "{QUARTER_NAME}={Q4}" >> $GITHUB_ENV
+   
+      - name: AR1 - Confirm GCP projects that are in scope
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}, cyclical-control"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR1 [Confirm GCP projects that are in scope]
+          
+          body: |
+              ## What is this issue about?
+              Verify the GCP projects that are in scope for SOC2 access review.
+              ## What needs to be done?
+              Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-confirm-scope
+               - [ ] Run script to generate list of active GCP Projects in scope (Ensure to include - au at the end of the script to exclude SOAK projects)
+               - [ ] Capture screenshot of script command line
+               - [ ] Confirm list of GCP projects that are in scope for the access review
+               - [ ] Request internal reviewer 
+               - [ ] Approved list
+               - [ ] Backup evidence to Google Drive
+               - [ ] Close Issue 
+              ## What does success look like?
+              Confirmed list of GCP projects that are in scope for the access review.
+                          
+          pinned: false
+          close-previous: false
+
+      - name: AR2 - Review GCP Role Bindings
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR2 [Review GCP Role Bindings]
+          body: |
+              ### What is this issue about?
+              We identify what groups have the owner and storage admin roles on each in-scope project.
+              ### What needs to be done?
+              Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-google-role-bindings
+              - [ ] Run script to generate list of GCP Role Bindings (This screenshot will also include clouddo accounts associated)
+              - [ ] Capture a list of role/permission mappings in GCP for each in-scope project.
+              - [ ] Extract list of ‘Clouddo’ groups that are owners or storage admin roles in the project 
+              - [ ] Filter the Clouddo account list so only uniques are showing
+              - [ ] In some cases there are individual accounts showing up with high privs (e.g owner), verify that these accounts are associated with clouddo permit/lease. (Query mode) 
+              - [ ] Capture screenshot of command line script 
+              - [ ] Request internal reviewer 
+              - [ ] Approved list
+              - [ ] Backup evidence to Google Drive
+              - [ ] Close issue 
+             
+              ### What does success look like?
+              We produce an updated list for the clouddo mappings in GCP and a list of Google and Okta accounts that are in-scope for our SOC2 review.
+                          
+          pinned: false
+          close-previous: false
+
+      - name: AR3 - Prod Access Review | Review Clouddo Configuration
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR3 [Prod Access Review | Review Clouddo Configuration]
+          body: |
+              ### What is this issue about?
+              Map clouddo accounts their associated Google and/or Okta groups and have Clouddo team verify configuration. This ultimately provides us with the list of Google and Okta groups whose memberships must be reviewed.
+              ### What needs to be done?
+              Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-clouddo
+               - [ ] Use the list of clouddo accounts previously identified in AR2
+               - [ ] Create spreadsheet to map each unique clouddo account to it's google and/or okta groups
+               - [ ] Record the path to the configuration file
+               - [ ] Request internal reviewer
+               - [ ] Approved list
+               - [ ] Backup evidence to Google Drive
+               - [ ] Close issue
+              ### What does success look like?
+              Will produce a table with a list of Clouddo accounts and mappings.
+          pinned: false
+          close-previous: false
+
+      - name: AR4 - Prod Access Review | Record GCP Hierarchy
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR4 [Prod Access Review | Record GCP Hierarchy]
+          body: |
+              ### What is this issue about?
+              Produce a logical layout of the in-scope folders and projects to identify where permissions are inherited from.
+              ### What needs to be done?
+              Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-google-hierarchy
+               - [ ] Generate hierarchy list with script
+               - [ ] Capture screenshot of script command line 
+               - [ ] Request internal reviewer 
+               - [ ] Approved list
+               - [ ] Backup evidence to Google Drive
+               - [ ] Close issue
+              ### What does success look like?
+              Will have a table or diagram with a list of folders and attached Clouddo accounts.
+              Will produce a table with a list of Clouddo accounts and mappings.
+                          
+          pinned: false
+          close-previous: false
+
+      - name: AR5 - Review Google Group Configuration
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR5 [Review Google Group Configuration]
+          body: |
+              ### What is this issue about?
+              Confirm that all in scope google groups are configured so that only Group Owners and Managers can add new users.
+              
+              ### What needs to be done?
+              Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-google-group-configuration
+              
+               - [ ] Identify list of in-scope Google groups (This can be found from AR3)
+               - [ ] Screenshot each Google group displaying ‘Owners/Manager’ can add new users 
+               - [ ] Request reviewer (amceldoca)
+               - [ ] Approved list
+               - [ ] Backup evidence to Google Drive
+               - [ ] Close issue
+               
+              ### What does success look like?
+              A screenshot for each in-scope Google Group showing only that only Owners or Managers can add members to group.
+                          
+          pinned: false
+          close-previous: false
+
+      - name: AR6 - Prod Access Review | Review Google Group Membership
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR6 [Review Google Group Membership]
+          body: |
+            ### What is this issue about?
+            Review membership in the Google groups that are associated with the in-scope Clouddo accounts.
+            Context
+            Being a member of a google group gives the user the privileges that are associated with the group. 
+            Reviewing the groups twice a year allows a senior resource to approve or adjust the membership of the group as needed. 
+            Google groups are used by clouddo to assign elevated privileges for administration type activities.
+            
+            ### What needs to be done?
+            Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-google-groups-membership
+            - [ ] Identify Google Groups in scope from AR3
+            - [ ] Identify members of respective groups through Gsuite-Admin 
+            - [ ] Capture list of members 
+            - [ ] Identify reviewers based off group owners/managers of respective group (If no owner found, reach out to ‘graham-shop’ to review)
+            - [ ] Approved list
+            - [ ] Backup evidence to Google Drive
+            - [ ] Close issue
+            
+            ### What does success look like?
+            All users in the in-scope google groups will have been reviewed by someone who is responsible for the group.
+                          
+          pinned: false
+          close-previous: false
+      
+      - name: AR7 - Review Okta Group Memberships
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR7 [Review Okta Group Memberships]
+          body: |
+              ### What is this issue about?
+              Review membership in the Okta groups that are associated with the in-scope Clouddo accounts.
+              
+              ### What needs to be done?
+              Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-okta-groups
+              
+               - [ ] Review AR5 to identify Okta groups in scope 
+               - [ ] Link AR6 to issue as Okta-group is covered in the same review. 
+               - [ ] Backup evidence to Google Drive
+               - [ ] Close issue
+              
+              ### What does success look like?
+              All users in the in-scope Okta group(s) will have been reviewed by someone who is responsible for the group.
+                          
+          pinned: false
+          close-previous: false
+
+      - name: AR8 - Review Chef SA Users
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR8 [Review Chef SA Users]
+          body: |
+            ### What is this issue about?
+            As part of our semi-annual access review we review users who have access to the Shopify databases. This access can occur either through the server directly (i.e. sysadmins) or through database itself (the DBA users). This issue will focus on the Chef SA users only.
+            Access lists should be approved by someone who is responsible for the users who have access.
+            ### What needs to be done?
+            Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-chef
+            
+             - [ ] Capture .pdf of Chef SA User repo
+             - [ ] Identify users from repo
+             - [ ] Run list of user emails through Mode report to identity reviewer(s)
+             - [ ] Approved list
+             - [ ] Backup evidence to Google Drive (Spreadsheet/Mode Report/PDF)
+             - [ ] Close issue
+            ### What does success look like?
+            All Chef SAs access has been approved by someone who is responsible for the users.
+                          
+          pinned: false
+          close-previous: false
+
+      - name: AR9 - Review Chef DB Users
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR9 [Review Chef DB Users]
+          body: |
+            ### What is this issue about?
+            As part of our semi-annual access review we review users who have access to the Shopify databases. This access can occur either through the server directly (i.e. sysadmins) or through database itself (the DBA users). This issue will focus on the Chef DB users only, the Chef SAs review can be found [here](https://github.com/Shopify/soc-2/issues/1340).
+            Access lists should be approved by someone who is responsible for the users who have access.
+            ### What needs to be done?
+            Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-chef
+            
+             - [ ] Capture .pdf of Chef DB User repo
+             - [ ] Identify users from repo
+             - [ ] Run list of user emails through Mode report to identity reviewer(s)
+             - [ ] Approved list
+             - [ ] Backup evidence to Google Drive (Spreadsheet/Mode Report/PDF)
+             - [ ] Close issue
+            
+            ### What does success look like?
+            All Chef DB access has been approved by someone who is responsible for the users.
+                          
+          pinned: false
+          close-previous: false
+
+
+      - name: AR10 - Review Cloudflare Admin users
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR10 [Review Cloudflare Admin Users]
+          body: |
+            ### What is this issue about?
+            Identify and approve all users that have admin level access to cloudflare.
+            
+            ### What needs to be done?
+            Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-cloudflare
+            
+             - [ ] Capture .PDF from Terraform repo and copy the administrators-read-only member list  ‘members.tf’ 
+             - [ ] Gather list of members from repo 
+             - [ ] Log into Okta and navigate to the Groups page and export the user list of Cloudflare access group 
+             - [ ] Log into Okta and navigate to the Groups page and export the user list for Production Access Group  
+             - [ ] Capture screenshot(s) of Production Access Okta 
+             - [ ] Generate list of users with Admin Access 
+             - [ ] Capture a screenshot of the groups that have access to the shared account via 1Password. Chris Taylor usually assists us with this task but any member of the Team Traffic team can assist. You can also reach out to IT as they own 1Password and they should be able to provide the screenshots.
+             - [ ] Capture screenshot of Google Team Traffic to identify reviewer (Owner)
+             - [ ] Approved list
+             - [ ] Backup evidence to Google Drive
+             - [ ] Close issue
+            
+            ### What does success look like?
+            Admin users via Clouddo have been approved
+            Membership in team-traffic 1password group has been approved
+           
+          pinned: false
+          close-previous: false
+
+      - name: AR11 - Review G-Suite Admin Roles
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR11 [Review G-Suite Admin Roles]
+          body: |
+            ### What is this issue about?
+            We inspect membership in all the G-Suite Admin Roles that assign members the ability to:
+            Create and modify Groups
+            Add users to groups
+            Membership in the group is reviewed and approved by senior management.
+            Please note that 'Groups_Retrieve' is not in scope. 
+            
+            ### What needs to be done?
+            Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-gsuite-admin-roles
+            
+             - [ ] Get list of Roles in scope provided by ‘Antonio Cheltenham’ 
+             - [ ] Capture screenshots of each Admin Role displaying their ability to create/modify groups and add users to groups. Note: only Admin roles under ‘GROUPS_ALL’ are in scope. 
+             - [ ] Create table comparing last quarters count 
+             - [ ] Identify reviewer(s) (Margaretsysms) 
+             - [ ] Approved list
+             - [ ] Backup evidence to Google Drive
+             - [ ] Close issue
+            
+            ### What does success look like?
+            We have approved all admin access to G-Suite.
+            
+          pinned: false
+          close-previous: false
+
+      - name: AR12 - Review Okta Admins
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR12 [Review Okta Admins]
+          body: |
+            ### What is this issue about?
+            Confirm whether access and role (ability to invite other users to the group) is appropriate for Okta admin users.
+            
+            Type of Accounts to be reviewed:
+            - [ ] Cloud Org Admin
+            - [ ] Super Admin
+            - [ ] App Admin
+            
+            ### What needs to be done?
+            Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-okta-admins
+             - [ ] Request Okta Org Admin to provide administrator report 
+             - [ ] Sort users by ‘SuperOrgAdmin/OrgAdmin/AppAdmin”
+             - [ ] Capture screenshot of Shopify/FRS/Clouddo-permits/permits/okta files 
+             - [ ] Capture screenshot of contents inside otka-org-admin.yml and 
+             - [ ] Capture screenshot of list of users from clouddo permit: ‘Clouddo-okta-admin-role-org-admin-eligible” 
+             - [ ] Review list of users and identify for Active and deprovioned 
+             - [ ] Repeat steps above for ‘Shopify/FRS/Clouddo-permits/permit/
+             - [ ] Approved list
+             - [ ] Backup evidence to Google Drive
+             - [ ] Close issue
+            
+            ### What does success look like?
+            An approved list of Okta administrators.
+            
+          pinned: false
+          close-previous: false
+
+      - name: AR13 - Review of Splunk Admins
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR13 [Review of Splunk Admins]
+          body: |
+           ## What is this issue about?
+           As part of our SOC2 semi-annual access review we review users who have admin access to Shopify Splunk instances.  The admin role allows the user to manage all or most of the users, objects, and configurations in Splunk.
+           ## What needs to be done?
+           Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-splunk-admins
+            - [ ] Identify in scope groups
+            - [ ] Collect membership from groups
+            - [ ] Identify reviewer for each user
+            - [ ] Request reviewer to verify all members with admin require admin
+            - [ ] Adjust user list as required (e.g. have unneeded admin privs removed from users)
+            - [ ] Backup evidence to Google Drive 
+            - [ ] Close issue
+           ## What does success look like?
+           Will have a list of valid Splunk admin users.
+          pinned: false
+          close-previous: false
+
+      - name: AR14 - Review of Github Org and Enterprise Owners
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} AR14 [Review of Github Admins and Enterprise Owners]
+          body: |
+           ## What is this issue about?
+           Review of Github Organization and Enterprise Owners. 
+         
+           Github Organization Owners
+           As part of our SOC2 semi-annual access review we review users who have Organization Owner access to Shopify github. Having Organization Owner access allows the user to manage individual, team, and outside collaborators access to the Github repositories. See full permissions [here](https://docs.github.com/en/organizations/managing-peoples-access-to-your-organization-with-roles/roles-in-an-organization#permissions-for-organization-roles)
+
+           Github Enterprise Owners
+           Enterprise owners have complete control over the Shopify enterprise to which this organization belongs. Enterprise owners have complete control over the enterprise and can take every action, including:
+
+           - Managing administrators
+           - Managing organizations in the enterprise
+           - Managing enterprise settings
+           - Enforcing policy across organizations
+           
+           Enterprise owners cannot access organization settings or content unless they are made an organization owner or given direct access to an organization-owned repository. Similarly, owners of organizations in your enterprise do not have access to the enterprise itself unless you make them enterprise owners.
+
+           ## What needs to be done?
+           Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-github-admins
+
+           [Github Organization Owners](https://github.com/Shopify/soc-2/wiki/soc2-qar-github-admins#github-enterprise-owners-1)
+
+            - [ ] Get list of GH Organization Owners from [here](https://github.com/orgs/Shopify/people?query=role%3Aowner)
+            - [ ] Sort list based on reporting structure
+            - [ ] Identify reviewers for each admin user
+            - [ ] Request reviewer to verify all members with admin require admin ( Not Required )
+            - [ ] Adjust user list as required (e.g. have unneeded admin privs removed from users) ( Not Required )
+            - [ ] Verify list
+            - [ ] Backup evidence to Google Drive
+
+           [Github Enterprise Owners](https://github.com/Shopify/soc-2/wiki/soc2-qar-github-admins#github-enterprise-owners-1)
+
+             - [ ] Get list of GH Enterprise Owners from [here](https://github.com/orgs/shopify/people/enterprise_owners)
+             - [ ] Run list through mode to capture the reporting structure
+             - [ ] Sort list based on reporting structure
+             - [ ] Identify reviewers for each GH enterprise owner
+             - [ ] Adjust user list as required (e.g. have unneeded owner privs removed from users)
+             - [ ] Verify list
+             - [ ] Backup evidence to Google Drive
+             - [ ] Close issue once both Github Admins + Enterprise Owners have been approved
+
+             ## What does success look like?
+             When we have a list of valid Github admin users and Github admin owners.
+
+          pinned: false
+          close-previous: false
+
+      - name: AR15 - Review KateSQL Admins
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title: ${{ env.QUARTER_NAME }} ${{ env.YEAR }} AR15 [Review KateSQL Admins]
+          body: |
+              ### What is this issue about?
+              As part of our semi-annual access review we review users who have access to the Shopify databases. 
+              This access can occur either through the server directly (i.e. sysadmins) or through database itself (the DBA users). 
+              This issue will focus on the KateSQL Admin's only. Access lists should be approved by someone who is responsible for the users who have access.
+              
+              ### What needs to be done?
+              Instructions here: https://soc-2.docs.shopify.io/cyclical-procedures/quarterly/access-reviews/soc2-qar-katesql-admins
+                - [ ] Capture .PDF of katesql-manager/db/data/user_permissions.yml
+                - [ ] Identify users from list and run user list through mode report
+                - [ ] Identify reviewer(s) for all users
+                - [ ] Approved list 
+                - [ ] Remove users as required based off review 
+                - [ ] Backup evidence to Google Drive 
+                - [ ] Close issue
+              
+              ### What does success look like?
+              All KateSQL admin access has been approved by someone who is responsible for the users.
+                          
+          pinned: false
+          close-previous: false
+
+      - name: Quarterly Access Review Tracker
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "diacant"
+          labels: "cyclical-control, Access Review ${{ env.QUARTER_NAME }}-${{ env.YEAR }}"
+          title:  ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} Quarterly Access Review
+          project: "SOC 2 Operational Work"
+          body: |
+                  ## What is this issue about?
+                  This issue will be used to track the progress of the ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} Quarterly Access Review.
+                  ## What needs to be done?
+                  The following tasks/reviews need to be completed and where applicable memberships and/or configurations approved
+                  Quarterly AR | Reviewer | Last Quarter Reference | ${{ env.QUARTER_NAME }} - ${{ env.YEAR }} Issue | Status |
+                  --- | --- | ---| --- | --- |
+                  AR1 - Confirm GCP projects that are in scope |   |   |   | |
+                  AR2 - Review GCP Role Bindings |   |   |   | |
+                  AR3 - Review Clouddo Configuration |   |   |   | |
+                  AR4 - Record GCP Hierarchy |   |   |   | |
+                  AR5 - Review Google Groups Configuration |   |   |   | |
+                  AR6 - Review Google Groups Membership |   |   |   | |
+                  AR7 - Review Okta Groups Membership |   |   |  | |
+                  AR8 - Review Chef SA Users |   |   |   | |
+                  AR9 - Review Chef DB Users |   |   |   | |
+                  AR10 - Review Cloudflare Admin Users |   |   |   | |
+                  AR11 - Review Gsuite Admin Roles |   |   |   | |
+                  AR12 - Review Okta Admins |   |   |   | |
+                  AR13 - Splunk Admins |   |   |   | |
+                  AR14- Github Admins |   |   |   | |
+                  AR15 - KateSQL Admins |   |   |    | |
+          pinned: false
+          close-previous: false
+
