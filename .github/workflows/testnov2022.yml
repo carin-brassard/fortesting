@@ -29,10 +29,14 @@ jobs:
         if: env.MONTH == 9
         run: echo "{QUARTER_NAME}={Q3}" >> $GITHUB_ENV
       - name: December
-        if: env.MONTH == 11
+        if: env.MONTH == 12
         #run: echo "{QUARTER_NAME}={O4}" >> $GITHUB_ENV
         run: echo "{QUARTER_NAME}={Q4}" >> $GITHUB_ENV
-   
+      - name: November
+        if: env.MONTH == 11
+        #run: echo "{QUARTER_NAME}={O4.5}" >> $GITHUB_ENV
+        run: echo "{QUARTER_NAME}={Q4.5}" >> $GITHUB_ENV
+      
       - name: AR1 - Confirm GCP projects that are in scope
         uses: imjohnbo/issue-bot@v3
         with:
